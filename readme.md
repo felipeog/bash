@@ -4,9 +4,16 @@
 
 - [Bash exercises on Exercism](https://exercism.org/tracks/awk/exercises)
 
-## Books
+## Resources
 
-- [todo: fill this list]
+- [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html)
+- [Greg's Wiki](https://mywiki.wooledge.org/EnglishFrontPage)
+- [Pure Bash Bible](https://github.com/dylanaraps/pure-bash-bible)
+
+## Tools
+
+- [Explain Shell](https://github.com/idank/explainshell)
+- [Shell Check](https://github.com/koalaman/shellcheck)
 
 ## Testing
 
