@@ -1,0 +1,12 @@
+{
+  "name": "awk",
+  "scripts": {
+    "bats": "cd $INIT_CWD && bats",
+    "test": "bats ./exercises/**/*.bats"
+  },
+  "dependencies": {
+    "bats": "^1.10.0",
+    "bats-assert": "github:ztombol/bats-assert",
+    "bats-support": "github:ztombol/bats-support"
+  }
+}
