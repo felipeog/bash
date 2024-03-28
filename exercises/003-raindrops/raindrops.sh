@@ -4,4 +4,4 @@
 [ $(( $1 % 5 )) -eq 0 ] && result+="Plang"
 [ $(( $1 % 7 )) -eq 0 ] && result+="Plong"
 
-echo "${result:-$1}
+echo "${result:-$1}"
