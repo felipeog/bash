@@ -2,6 +2,7 @@
   "name": "awk",
   "scripts": {
     "bats": "cd $INIT_CWD && bats",
+    "shellcheck": "shellcheck",
     "lint": "shellcheck ./exercises/**/*.sh",
     "test": "bats ./exercises/**/*.bats"
   },
