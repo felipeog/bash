@@ -16,7 +16,7 @@ length=${#1}
 count=0
 i=0
 
-while [ $i -lt $length ]
+while [ $i -lt "$length" ]
 do
   [ "${1:$i:1}" != "${2:$i:1}" ] && (( count++ ))
   i=$(( i + 1 ))
