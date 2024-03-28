@@ -1,4 +1,4 @@
-name: Test
+name: Lint and Test
 
 on:
   workflow_dispatch: {}
@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  test:
+  lint-and-test:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
