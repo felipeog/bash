@@ -23,12 +23,20 @@ jobs:
       - name: Run shellcheck
         run: shellcheck ./exercises/**/*.sh
       - name: Run checkbashisms
-        # exit code 4 is success in checkbashisms
-        # exit code not equal 0 is failure in github actions
-        # change exit code to 0 when it's 4
-        # set +e
+        # `set +e`
+        #     disable exit on failure to enable exit code change
+        #
+        # `[ "$?" -eq "4" ] && exit 0`
+        #     in checkbashisms, exit code 4 is success
+        #     in github actions, exit code not equal 0 is failure
+        #     change exit code to 0 when it's originally 4
+
+        # `set -e`
+        #     enable exit on failure after exit code change
         run: |
+          set +e
           checkbashisms ./exercises/**/*.sh
           [ "$?" -eq "4" ] && exit 0
+          set -e
       - name: Run bats
         run: bats ./exercises/**/*.bats
