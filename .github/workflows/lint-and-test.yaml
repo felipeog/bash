@@ -27,7 +27,7 @@ jobs:
         run: |
           set +e
           checkbashisms ./exercises/**/*.sh
-          [ "$?" -eq "4" ]&& exit 0
+          [ "$?" -eq "4" ] && exit 0
 
       # TODO: run bats without node
       - name: Setup Node
