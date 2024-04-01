@@ -10,10 +10,10 @@ jobs:
   lint-and-test:
     runs-on: ubuntu-22.04
     steps:
-      - name: Install checkbashisms
-        run: sudo apt install checkbashisms
       - name: Install shellcheck
         run: sudo apt install shellcheck
+      # - name: Install checkbashisms
+      #   run: sudo apt install checkbashisms
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup Node
