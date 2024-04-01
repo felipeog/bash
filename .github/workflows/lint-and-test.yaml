@@ -13,33 +13,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install shellcheck
+        run: sudo apt install shellcheck
+      - name: Install devscripts (includes checkbashisms)
+        run: sudo apt install devscripts
       - name: Install bats
         run: sudo apt install bats
+
+      - name: Run shellcheck
+        run: shellcheck ./exercises/**/*.sh
+      - name: Run checkbashisms
+        # exit code 4 is success in checkbashisms
+        # exit code not equal 0 is failure in github actions
+        # change exit code to 0 when it's 4
+        # set +e
+        run: |
+          checkbashisms ./exercises/**/*.sh
+          [ "$?" -eq "4" ] && exit 0
       - name: Run bats
         run: bats ./exercises/**/*.bats
-
-      # - name: Install shellcheck
-      #   run: sudo apt install shellcheck
-      # - name: Install devscripts (includes checkbashisms)
-      #   run: sudo apt install devscripts
-
-      # - name: Run shellcheck
-      #   run: shellcheck ./exercises/**/*.sh
-      # - name: Run checkbashisms
-      #   # exit code 4 is success in checkbashisms
-      #   # exit code not equal 0 is failure in github actions
-      #   # change exit code to 0 when it's 4
-      #   run: |
-      #     set +e
-      #     checkbashisms ./exercises/**/*.sh
-      #     [ "$?" -eq "4" ] && exit 0
-
-      # TODO: run bats without node
-      # - name: Setup Node
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 18
-      # - name: Install dependencies
-      #   run: npm ci
-      # - name: Run tests
-      #   run: npm test
