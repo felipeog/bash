@@ -13,8 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # - name: Install bats, bats-assert, and bats-support
-      #   run: sudo apt install bats bats-assert bats-support
       - name: Install bats
         run: sudo apt install bats
       - name: Run bats

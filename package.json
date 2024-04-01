@@ -8,8 +8,6 @@
   },
   "dependencies": {
     "bats": "^1.10.0",
-    "bats-assert": "github:ztombol/bats-assert",
-    "bats-support": "github:ztombol/bats-support",
     "shellcheck": "^2.2.0"
   }
 }
