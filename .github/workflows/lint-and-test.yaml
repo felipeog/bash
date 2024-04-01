@@ -15,26 +15,33 @@ jobs:
 
       - name: Install shellcheck
         run: sudo apt install shellcheck
-      - name: Install devscripts
+      - name: Install devscripts (includes checkbashisms)
         run: sudo apt install devscripts
+      - name: Install bats
+        run: sudo apt install bats
+      - name: Install bats-support
+        run: git clone https://github.com/ztombol/bats-support test/bats-support
+      - name: Install bats-assert
+        run: git clone https://github.com/ztombol/bats-assert test/bats-assert
 
       - name: Run shellcheck
         run: shellcheck ./exercises/**/*.sh
       - name: Run checkbashisms
-        # exit code 4 is success in checkbashisms
-        # exit code not equal 0 is failure in github actions
-        # change exit code to 0 when it's 4
+        # `set +e`
+        #     disable exit on failure to enable exit code change
+        #     https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html
+        #
+        # `[ "$?" -eq "4" ] && exit 0`
+        #     in checkbashisms, exit code 4 is success
+        #     in github actions, exit code not equal 0 is failure
+        #     change exit code to 0 when it's originally 4
+        #
+        # `set -e`
+        #     enable exit on failure after exit code change
         run: |
           set +e
           checkbashisms ./exercises/**/*.sh
           [ "$?" -eq "4" ] && exit 0
-
-      # TODO: run bats without node
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: Install dependencies
-        run: npm ci
-      - name: Run tests
-        run: npm test
+          set -e
+      - name: Run bats
+        run: bats ./exercises/**/*.bats
