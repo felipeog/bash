@@ -21,10 +21,13 @@ jobs:
       - name: Run shellcheck
         run: shellcheck ./exercises/**/*.sh
       - name: Run checkbashisms
+        # exit code 4 is success in checkbashisms
+        # exit code not equal 0 is failure in github actions
+        # change exit code to 0 when it's 4
         run: |
           set +e
           checkbashisms ./exercises/**/*.sh
-          if [ "$?" -eq "4" ]; then exit 0; fi
+          [ "$?" -eq "4" ]&& exit 0
 
       # - name: Setup Node
       #   uses: actions/setup-node@v3
