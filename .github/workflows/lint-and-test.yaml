@@ -10,6 +10,8 @@ jobs:
   lint-and-test:
     runs-on: ubuntu-22.04
     steps:
+      - name: Update Apt
+        run: sudo apt update
       - name: Install shellcheck
         run: sudo apt install shellcheck
       - name: Install devscripts
