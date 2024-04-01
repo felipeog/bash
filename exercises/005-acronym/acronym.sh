@@ -1,34 +1,47 @@
 #!/usr/bin/env bash
 
-# -lt                          https://www.gnu.org/software/bash/manual/bash.html#Bash-Conditional-Expressions
-# (( ))                        https://www.gnu.org/software/bash/manual/bash.html#Shell-Arithmetic
-# [ ]                          https://www.gnu.org/software/bash/manual/bash.html#index-test
-# [...]                        https://www.gnu.org/software/bash/manual/bash.html#Pattern-Matching
-# [n] <<< word                 https://www.gnu.org/software/bash/manual/bash.html#Here-Strings
-# +=                           https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameters
-# ${#name[subscript]}          https://www.gnu.org/software/bash/manual/bash.html#Arrays
-# ${parameter:offset:length}   https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameter-Expansion
-# ${parameter//pattern/string} https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameter-Expansion
-# ${parameter^^pattern}        https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameter-Expansion
-# $parameter                   https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameter-Expansion
-# echo                         https://www.gnu.org/software/bash/manual/bash.html#index-echo
-# id++                         https://www.gnu.org/software/bash/manual/bash.html#Shell-Arithmetic
-# IFS                          https://www.gnu.org/software/bash/manual/bash.html#index-IFS
-# name=[value]                 https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameters
-# read                         https://www.gnu.org/software/bash/manual/bash.html#index-read
-# while                        https://www.gnu.org/software/bash/manual/bash.html#index-while
+# subsitute non-character and non-apostrophe with space
+# then substitute multiple spaces with one space
+clean_input=$(echo "$1" | sed -e "s/[^a-zA-Z\']/ /g" -e "s/ \{2,\}/ /g")
 
-IFS=" "
-read -r -a words <<< "${1//[^a-zA-Z\']/ }"
+# get spaces count
+space_count=$(echo "$clean_input" | grep -o " " | wc -l)
 
+# `text` is initialized with `clean_input`, and it's mutated on the loop
+text=$clean_input
+
+# `result` is initialized with the first character
+result=$(echo "$text" | cut -c 1)
+
+# loop index
 i=0
-length=${#words[@]}
-result=""
 
-while [ $i -lt "$length" ]
+while [ $i -lt "$space_count" ]
 do
-  result+=${words[$i]:0:1}
-  (( i++ ))
+  # get the first space occurrence position
+  space_position=$(echo "$text" | grep -ob " " | head -1 | grep -Eo "[0-9]+")
+
+  # get the character after the space position
+  character_position=$(( space_position + 1 ))
+
+  # `grep` uses zero-based indexing, `cut` uses one-based indexing
+  # increment `grep` position by one
+  cut_position=$(( character_position + 1 ))
+
+  # get the character positioned after the space
+  character=$(echo "$text" | cut -c "$cut_position")
+
+  # concatenate `result` with `character`
+  result="${result}${character}"
+
+  # remove the first word and first space from `text`
+  text=$(echo "$text" | cut -c "$cut_position"-)
+
+  # update loop index
+  i=$(( i + 1 ))
 done
 
-echo "${result^^}"
+# transform `result` to uppercase
+result=$(echo "$result" | tr '[:lower:]' '[:upper:]')
+
+echo "$result"
