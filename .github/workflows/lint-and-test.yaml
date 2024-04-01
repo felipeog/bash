@@ -12,6 +12,9 @@ jobs:
     steps:
       - name: Update Apt
         run: sudo apt update
+      - name: Upgrade Apt
+        run: sudo apt upgrade
+
       - name: Install shellcheck
         run: sudo apt install shellcheck
       - name: Install devscripts
