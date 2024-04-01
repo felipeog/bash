@@ -21,7 +21,7 @@ jobs:
       - name: Run shellcheck
         run: shellcheck ./exercises/**/*.sh
       - name: Run checkbashisms
-        run: checkbashisms ./exercises/**/*.sh
+        run: checkbashisms --lint ./exercises/**/*.sh
 
       # - name: Setup Node
       #   uses: actions/setup-node@v3
